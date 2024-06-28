@@ -25,7 +25,29 @@ frontEndConnectionString = process.env.frontEndConnectionString
 
 
 
+//Date Variables
+const options = {
+  timeZone: 'Asia/Kolkata',
+  timeZoneName: 'short',
+  year: 'numeric',
+  month: 'long',
+  day: 'numeric',
+  hour: 'numeric',
+  minute: 'numeric',
+  second: 'numeric',
+  hour12: false,
+};
 
+function getCurrentFormattedDate() {
+  const formatter = new Intl.DateTimeFormat('en-US', options);
+  return formatter.format(new Date());
+}
+
+
+app.get('/',(req,res)=>{
+  const formattedDate = getCurrentFormattedDate();
+  res.send(`Server is running... Date is: ${formattedDate}`);
+})
 
 
 // Start using Node------------------------------------------------------------------------
