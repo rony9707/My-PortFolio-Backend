@@ -7,7 +7,7 @@ require('dotenv').config();
 const myEmail = process.env.EMAIL;
 const myPassword = process.env.PASSWORD;
 
-router.post('/connetMesendEmail', (req, res) => {
+router.post('/connetMesendEmail', async (req, res) => {
   try {
     // Mail config
     let config = {
@@ -34,21 +34,6 @@ router.post('/connetMesendEmail', (req, res) => {
       alt="Thanks">
     `
     };
-
-
-    // Sending the email to user
-    transporter.sendMail(mailOptionsToUser, (err, info) => {
-      if (err) {
-        console.error('Error sending email:', err);
-        return res.status(500).json({ message: 'Failed to send email.' });
-      } else {
-        // Sending response
-        res.json({
-          message: 'Email is sent successfully',
-        });
-      }
-    });
-
 
     // Email format config to sent to me 
     const mailOptionsToMe = {
@@ -84,22 +69,16 @@ router.post('/connetMesendEmail', (req, res) => {
       `
     };
 
+    // Sending the email to user
+    const userEmailPromise = transporter.sendMail(mailOptionsToUser);
+    const meEmailPromise = transporter.sendMail(mailOptionsToMe);
 
+    await Promise.all([userEmailPromise, meEmailPromise]);
 
-
-    // Sending the email to me
-    transporter.sendMail(mailOptionsToMe, (err, info) => {
-      if (err) {
-        console.error('Error sending email:', err);
-        return res.status(500).json({ message: 'Failed to send email.' });
-      } else {
-        // Sending response
-        res.json({
-          message: 'Email is sent successfully',
-        });
-      }
+    // Sending response
+    res.json({
+      message: 'Email is sent successfully',
     });
-
 
   } catch (error) {
     console.error('Error in sending email:', error);
