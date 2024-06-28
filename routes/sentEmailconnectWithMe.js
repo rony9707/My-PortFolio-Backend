@@ -6,8 +6,8 @@ const router = Router();
 const nodemailer = require('nodemailer');
 
 
-const myEmail = process.env.EMAIL;
-const myPassword = process.env.PASSWORD;
+const myEmail = process.env.email;
+const myPassword = process.env.password;
 
 console.log('EMAIL:', myEmail);  // Debugging
 console.log('PASSWORD:', myPassword);  // Debugging
