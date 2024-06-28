@@ -1,11 +1,15 @@
 const { Router } = require('express');
 const router = Router();
-const nodemailer = require('nodemailer');
 
 // Use dotenv to load environment variables
 require('dotenv').config();
-const myEmail = process.env.EMAIL;
-const myPassword = process.env.PASSWORD;
+
+const nodemailer = require('nodemailer');
+
+
+const myEmail = process.env.email;
+const myPassword = process.env.password;
+
 
 router.post('/sendEmail', async (req, res) => {
   try {
