@@ -1,9 +1,11 @@
 const { Router } = require('express');
+// Use dotenv to load environment variables
+require('dotenv').config();
+
 const router = Router();
 const nodemailer = require('nodemailer');
 
-// Use dotenv to load environment variables
-require('dotenv').config();
+
 const myEmail = process.env.EMAIL;
 const myPassword = process.env.PASSWORD;
 
