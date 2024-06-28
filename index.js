@@ -56,7 +56,7 @@ app.use(cors());
 
 //Connect to angular
 app.use(cors({
-  credentials: false,
+  credentials: true,
   origin:[frontEndConnectionString]
 }))
 

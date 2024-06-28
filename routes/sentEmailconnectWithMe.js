@@ -7,6 +7,9 @@ require('dotenv').config();
 const myEmail = process.env.EMAIL;
 const myPassword = process.env.PASSWORD;
 
+console.log('EMAIL:', myEmail);  // Debugging
+console.log('PASSWORD:', myPassword);  // Debugging
+
 router.post('/connetMesendEmail', async (req, res) => {
   try {
     // Mail config
@@ -17,6 +20,9 @@ router.post('/connetMesendEmail', async (req, res) => {
         pass: myPassword,
       },
     };
+
+    console.log('Config:', config); // Debugging
+    console.log('Req:', req.body); // Debugging
 
     let transporter = nodemailer.createTransport(config);
 
