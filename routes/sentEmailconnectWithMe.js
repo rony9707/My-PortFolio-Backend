@@ -9,8 +9,6 @@ const nodemailer = require('nodemailer');
 const myEmail = process.env.email;
 const myPassword = process.env.password;
 
-console.log('EMAIL:', myEmail);  // Debugging
-console.log('PASSWORD:', myPassword);  // Debugging
 
 router.post('/connetMesendEmail', async (req, res) => {
   try {
@@ -23,8 +21,6 @@ router.post('/connetMesendEmail', async (req, res) => {
       },
     };
 
-    console.log('Config:', config); // Debugging
-    console.log('Req:', req.body); // Debugging
 
     let transporter = nodemailer.createTransport(config);
 
