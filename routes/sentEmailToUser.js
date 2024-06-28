@@ -7,12 +7,11 @@ require('dotenv').config();
 const myEmail = process.env.EMAIL;
 const myPassword = process.env.PASSWORD;
 
-router.post('/sendEmail', (req, res) => {
+router.post('/sendEmail', async (req, res) => {
   try {
     if (!req.body.email) {
       return res.status(400).json({ message: 'Email address is required.' });
     }
-
 
     // Mail config
     let config = {
@@ -25,7 +24,7 @@ router.post('/sendEmail', (req, res) => {
 
     let transporter = nodemailer.createTransport(config);
 
-    // Email format config to sent to user
+    // Email format config to send to user
     const mailOptionsToUser = {
       from: myEmail,
       to: req.body.email,
@@ -40,22 +39,7 @@ router.post('/sendEmail', (req, res) => {
     `
     };
 
-    // Sending the email to user
-    transporter.sendMail(mailOptionsToUser, (err, info) => {
-      if (err) {
-        console.error('Error sending email:', err);
-        return res.status(500).json({ message: 'Failed to send email.' });
-      } else {
-        // Sending response
-        res.json({
-          message: 'Email is sent successfully',
-        });
-      }
-    });
-
-
-
-    // Email format config to sent to me 
+    // Email format config to send to me
     const mailOptionsToMe = {
       from: myEmail,
       to: myEmail,
@@ -65,24 +49,19 @@ You resume is downloaded by ${req.body.email}.
 Please analyze to see if the user is correct to give the password for the ZIP file.
 
 Thanks,
-The code which still works.`};
+The code which still works.`
+    };
 
+    // Sending both emails in parallel
+    await Promise.all([
+      transporter.sendMail(mailOptionsToUser),
+      transporter.sendMail(mailOptionsToMe)
+    ]);
 
-
-    // Sending the email to me
-    transporter.sendMail(mailOptionsToMe, (err, info) => {
-      if (err) {
-        console.error('Error sending email:', err);
-        return res.status(500).json({ message: 'Failed to send email.' });
-      } else {
-        // Sending response
-        res.json({
-          message: 'Email is sent successfully',
-        });
-      }
+    // Sending response
+    res.json({
+      message: 'Email is sent successfully',
     });
-
-
 
   } catch (error) {
     console.error('Error in sending email:', error);
